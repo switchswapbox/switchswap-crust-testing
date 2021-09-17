@@ -2,6 +2,21 @@ import "./App.css";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { typesBundleForPolkadot } from "@crustio/type-definitions";
 
+import { create } from "ipfs-http-client";
+
+const ipfsGateway = "https://crustwebsites.net";
+
+const authHeader = Buffer.from(
+  `sub-0x272a8f05d05d69b6d8261538b031ffac60ba0c8c:0xd25e6494e0ad7988815f07670d1a0133150b039a5a796efea50f72cde520731354fbf4fac099e81a346abf76d7d8f0fb7cabbfa3a17d5d2829d1a85aa607884e1c`
+).toString("base64");
+
+const ipfs = create({
+  url: ipfsGateway + "/api/v0",
+  headers: {
+    authorization: "Basic " + authHeader,
+  },
+});
+
 function App() {
   const getStatusMaxwell = async () => {
     try {
@@ -39,7 +54,7 @@ function App() {
 
   const getStatusMainnet = async () => {
     try {
-      const cid = "QmYAAtzqGCDbUujmj2ULy3gT2P7rHXVh9XcTSt7Apquqm9";
+      const cid = "QmUquomBemrfkAHepxYTDK2duPZHvEZZXcJSd7XGvj5tex";
       // const chainAddr = "wss://api.decloudf.com/";
       // const chainAddr = "wss://api.crust.network";
       const chainAddr = "wss://rpc.crust.network";
@@ -95,6 +110,9 @@ function App() {
       <button type="button" onClick={getStatusMainnet}>
         Get Status Maxwell
       </button>
+
+      <br />
+      <br />
     </div>
   );
 }
